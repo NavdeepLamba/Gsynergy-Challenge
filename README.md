@@ -25,6 +25,7 @@ Ensure you have the following before running the pipeline:
 2. Run PySpark Data Processing
 
 * Open Google Colab or a local Jupyter Notebook.
+
 Mount your GCS bucket:
 
 from google.colab import auth
@@ -33,21 +34,24 @@ auth.authenticate_user()
 
 * Run the PySpark script:
 
-spark-submit DataProc/staged_fact_table_final.py
+  spark-submit DataProc/staged_fact_table_final.py
 
 3. Validate BigQuery Table
 
 After processing, validate the mview_weekly_sales table in BigQuery :
 
+
 SELECT * FROM `your_project.your_dataset.mview_weekly_sales` LIMIT 10;
 
 * Verify the aggregated values by running:
 
-  SELECT pos_site_id, sku_id, fsclwk_id, SUM(total_sales_units) 
+
+ SELECT pos_site_id, sku_id, fsclwk_id, SUM(total_sales_units) 
 FROM `your_project.your_dataset.mview_weekly_sales`
 GROUP BY pos_site_id, sku_id, fsclwk_id;
 
 4. Validation Checklist
+   
 Ensure the staged_facts table is successfully created with joined hierarchy data.
 Check that mview_weekly_sales aggregates sales_units, sales_dollars, and discount_dollars.
 Compare a sample transaction record with the corresponding aggregated weekly total.
